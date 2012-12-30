@@ -65,8 +65,7 @@ $job.name = myProject
 ----------------------------------------------------------------------------------------------
 - Command Line Interface -
 --------------------------------------------------
-(CLI) "jenkins" (name TBD)
-
+run like "jenkins" on the command line (name TBD)
 $ alias jenkins="python ~/Development/BuildScripts/Jenkins/app.py"
 
 - TODO: rethink for windows, they need a .cmd
