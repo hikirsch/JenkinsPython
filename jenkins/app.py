@@ -1,3 +1,7 @@
+EQUALS_LINE = "==================================================================================================="
+DASH_LINE = "---------------------------------------------------------------------------------------------------"
+
+import traceback
 from helpers.ArgumentsHelper import ArgumentsHelper
 
 from sys import argv
@@ -19,9 +23,6 @@ class Jenkins:
 
 			for case in switch( command ):
 				if case("copy"):
-					if argHelper.getCount() != 2:
-						raise Exception("copy must be passed with 2 arguments")
-
 					src = argHelper.getNextArgument()
 					dest = argHelper.getNextArgument()
 
@@ -39,9 +40,12 @@ class Jenkins:
 
 		except Exception as e:
 			print ""
-			print "================================================="
+			print EQUALS_LINE
 			print "Exception"
-			print "================================================="
-			print "An error occured! ", e
+			print EQUALS_LINE
+			print "An error occured! "
+			print e
+			print DASH_LINE
+			print traceback.format_exc()
 
 Jenkins()
