@@ -68,6 +68,8 @@ class Copy:
 		for line in output:
 			print line
 
+		print "DONE RUNNING"
+
 
 
 
