@@ -99,7 +99,7 @@ class Merge:
 					print 'File `%s` matches directory `%s`' % (origin_filename, dest_filename)
 				else:
 					parent_path = os.path.dirname(dest_filename)
-					
+
 					if not os.path.exists( parent_path):
 						os.makedirs(parent_path)
 

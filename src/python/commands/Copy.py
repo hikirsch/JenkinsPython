@@ -1,4 +1,5 @@
 import os
+import subprocess
 from commands.Merge import Merge
 from model.Path import Path
 
@@ -6,6 +7,8 @@ from model.Path import Path
 class Copy:
 	src = None
 	dest = None
+
+	RSYNC_OPTIONS = ["-a", "--progress", "--delete-during"]
 
 	def __init__(self, src, dest):
 		self.src = Path(src)
@@ -23,6 +26,9 @@ class Copy:
 		if self.src.isRemote is False and self.dest.isRemote is False:
 			self.doCopyLocal()
 
+		if not self.src.isRemote and self.dest.isRemote:
+			self.doCopyRemote()
+
 	def doCopyLocal(self):
 
 		if self.dest.exists():
@@ -34,6 +40,34 @@ class Copy:
 
 		print "Copying '" + self.src.path + "' to '" + self.dest.path
 		Merge(self.src.path, self.dest.path)
+
+	def doCopyRemote(self):
+		options = ["rsync"] + self.RSYNC_OPTIONS[:]
+
+		options.append('-e')
+
+		if self.dest.scheme == "ftp":
+			options.append('ftp')
+		else:
+			options.append('ssh')
+
+		src_path = self.src.path
+		if os.path.isdir(src_path):
+			src_path += "/"
+
+		options += [src_path, self.dest.getSyncPath()]
+
+		# print options
+		self.execute(options)
+
+	def execute(self, rsync_command):
+		cleanProcess = subprocess.Popen(rsync_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		output = cleanProcess.communicate()[0].split("\n")
+
+		for line in output:
+			print line
+
+
 
 
 

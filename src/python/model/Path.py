@@ -55,10 +55,29 @@ class Path:
 			self.isRemote = True
 
 		self.scheme = parsedResult.scheme
-		self.server = parsedResult.netloc
+		self.server = parsedResult.hostname
+		self.userName = parsedResult.username
+		self.password = parsedResult.password
 		self.path = os.path.abspath(parsedResult.path)
 		self.parsedPath = parsedResult.path
 
+		if self.isRemote and self.path[:1] == "/":
+			self.path = self.path[1:]
+
 	def isDir(self):
 		return os.path.isdir(self.path)
+
+	def getSyncPath(self):
+		path = ""
+
+		if self.userName is not None:
+			if self.password is not None:
+				path += "%s:%s@" % (self.userName, self.password)
+			else:
+				path += "%s@" % self.userName
+
+		path += "%s:%s/" % (self.server, self.path)
+
+		return path
+
 

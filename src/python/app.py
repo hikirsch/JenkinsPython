@@ -1,5 +1,7 @@
 import os
+import shutil
 from commands.Merge import Merge
+from model.Path import Path
 
 EQUALS_LINE = "==================================================================================================="
 DASH_LINE = "---------------------------------------------------------------------------------------------------"
@@ -57,6 +59,15 @@ class Jenkins:
 			print traceback.format_exc()
 
 
+	def clean(self):
+		path = Path(self.TARGET_PATH)
+
+		if path.exists():
+			shutil.rmtree(path.path)
+			print "Removed '%s'" % self.TARGET_PATH
+		else:
+			print "Nothing to clean"
+
 	def copy(self):
 		src = self.argHelper.getNextArgument()
 		dest = self.argHelper.getNextArgument()
@@ -74,6 +85,12 @@ class Jenkins:
 		src = self.SOURCE_PATH + os.path.sep + projectType
 
 		Copy(src, self.TARGET_PATH)
+
+
+	def deploy(self):
+		dest = self.argHelper.getNextArgument()
+
+		Copy(self.TARGET_PATH, dest)
 
 	def buildAssets(self):
 		when = self.argHelper.getNextArgument() + "-build"
