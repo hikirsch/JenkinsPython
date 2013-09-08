@@ -1,5 +1,4 @@
 import os
-import subprocess
 from commands.Merge import Merge
 from model.Path import Path
 
@@ -62,11 +61,13 @@ class Copy:
 
 	def execute(self, rsync_command):
 		print "RUNNING: " + " ".join(rsync_command)
-		cleanProcess = subprocess.Popen(rsync_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		output = cleanProcess.communicate()[0].split("\n")
+		# cleanProcess = subprocess.Popen(rsync_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		# output = cleanProcess.communicate()[0].split("\n")
+		#
+		# for line in output:
+		# 	print line
 
-		for line in output:
-			print line
+		os.system(" ".join(rsync_command))
 
 		print "DONE RUNNING"
 
