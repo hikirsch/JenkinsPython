@@ -99,9 +99,9 @@ class Merge:
 				if path.isdir(origin_filename) and not base_name in self.EXCLUDE:
 					filequeue.extend(path.join(file_name, ch) for ch in os.listdir(origin_filename))
 				elif not path.isfile(origin_filename):
-					print 'Ignore %s' % origin_filename
+					print "Ignored '%s'" % origin_filename
 				elif path.isdir(dest_filename):
-					print 'File `%s` matches directory `%s`' % (origin_filename, dest_filename)
+					print "File '%s' matches directory '%s'" % (origin_filename, dest_filename)
 				else:
 					parent_path = os.path.dirname(dest_filename)
 
