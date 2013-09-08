@@ -36,15 +36,13 @@ class Jenkins:
 
 			print "Command Detected: ", command
 
-			methodToCall = None
-
 			try:
 				methodToCall = getattr(self, command)
-			except AttributeError as e:
-				print "Command Not Found"
 
-			if methodToCall is not None:
-				methodToCall()
+				if methodToCall is not None:
+					methodToCall()
+			except AttributeError as e:
+				raise Exception("Command Not Found")
 
 			print "DONE"
 
@@ -57,6 +55,8 @@ class Jenkins:
 			print e
 			print DASH_LINE
 			print traceback.format_exc()
+
+			raise e
 
 
 	def clean(self):
@@ -84,7 +84,10 @@ class Jenkins:
 		projectType = self.argHelper.getNextArgument()
 		src = self.SOURCE_PATH + os.path.sep + projectType
 
-		Copy(src, self.TARGET_PATH)
+		if os.path.exists(src):
+			Copy(src, self.TARGET_PATH)
+		else:
+			raise Exception("source path '%s' does not exist" % src)
 
 
 	def deploy(self):
@@ -96,14 +99,30 @@ class Jenkins:
 		when = self.argHelper.getNextArgument() + "-build"
 		env = self.argHelper.getNextArgument()
 
-		path = self.BUILD_ASSETS_PATH + os.path.sep + when + os.path.sep + env
+		if env is None and "ENV" in os.environ:
+			env = os.environ["ENV"]
 
-		print "build-assets '" + when + "' for '" + env + "' (" + path + ")"
+		if env is None:
+			print "Invalid!"
+		else:
+			when = self.caseInsensativeFolder(self.BUILD_ASSETS_PATH, when)
+			path = self.caseInsensativeFolder(when, env)
 
-		Merge(path, self.TARGET_PATH)
+			if os.path.exists(path):
+				Merge(path, self.TARGET_PATH)
+			else:
+				raise Exception("Path '%s' was not found!" % path)
 
 	def compile(self):
 		print "TEST"
+
+	def caseInsensativeFolder(self, path, when):
+		files = os.listdir(path)
+		while len(files) > 0:
+			nextFile = files.pop()
+
+			if nextFile.lower() == when.lower():
+				return path + os.path.sep + nextFile
 
 
 if __name__ == "__main__":
