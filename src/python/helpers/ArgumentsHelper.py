@@ -21,8 +21,8 @@ class ArgumentsHelper:
 		self.currentIndex += 1
 
 		if self.currentIndex < len( self.arguments ):
-
 			return self.arguments[ self.currentIndex ]
+
 		return None
 
 
