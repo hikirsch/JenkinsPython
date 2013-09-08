@@ -88,14 +88,16 @@ class Merge:
 		filequeue = os.listdir(origin)
 
 		while filequeue:
-			fname = filequeue.pop()
+			file_name = filequeue.pop()
 
-			origin_filename = path.join(origin, fname)
-			dest_filename = path.join(dest, fname)
+			base_name = path.basename(file_name)
+
+			origin_filename = path.join(origin, file_name)
+			dest_filename = path.join(dest, file_name)
 
 			try:
-				if path.isdir(origin_filename) and not fname in self.EXCLUDE:
-					filequeue.extend(path.join(fname, ch) for ch in os.listdir(origin_filename))
+				if path.isdir(origin_filename) and not base_name in self.EXCLUDE:
+					filequeue.extend(path.join(file_name, ch) for ch in os.listdir(origin_filename))
 				elif not path.isfile(origin_filename):
 					print 'Ignore %s' % origin_filename
 				elif path.isdir(dest_filename):
@@ -106,7 +108,7 @@ class Merge:
 					if not os.path.exists( parent_path):
 						os.makedirs(parent_path)
 
-					if not fname in self.EXCLUDE:
+					if not base_name in self.EXCLUDE:
 						print "Copying '%s' --> '%s'" % ( origin_filename, dest_filename )
 						shutil.copy(origin_filename, dest_filename)
 			except IOError, e:
