@@ -104,7 +104,7 @@ class Jenkins:
 			env = os.environ["ENV"]
 
 		if env is None:
-			print "Invalid!"
+			raise Exception("No environment found")
 		else:
 			when = self.caseInsensativeFolder(self.BUILD_ASSETS_PATH, when)
 			path = self.caseInsensativeFolder(when, env)

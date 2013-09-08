@@ -6,6 +6,9 @@ from model.Path import Path
 
 
 class Merge:
+
+	EXCLUDE = [".svn", ".git"]
+
 	def __init__(self, src, dest):
 		self.src = Path(src)
 		self.dest = Path(dest)
@@ -91,7 +94,7 @@ class Merge:
 			dest_filename = path.join(dest, fname)
 
 			try:
-				if path.isdir(origin_filename):
+				if path.isdir(origin_filename) and not origin_filename in self.EXCLUDE:
 					filequeue.extend(path.join(fname, ch) for ch in os.listdir(origin_filename))
 				elif not path.isfile(origin_filename):
 					print 'Ignore %s' % origin_filename
@@ -103,8 +106,9 @@ class Merge:
 					if not os.path.exists( parent_path):
 						os.makedirs(parent_path)
 
-					print "Copying '%s' --> '%s'" % ( origin_filename, dest_filename )
-					shutil.copy(origin_filename, dest_filename)
+					if not origin_filename in self.EXCLUDE:
+						print "Copying '%s' --> '%s'" % ( origin_filename, dest_filename )
+						shutil.copy(origin_filename, dest_filename)
 			except IOError, e:
 				import sys
 
