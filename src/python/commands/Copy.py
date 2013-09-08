@@ -49,7 +49,7 @@ class Copy:
 		if self.dest.scheme == "ftp":
 			options.append('ftp')
 		else:
-			options.append('ssh')
+			options.append('"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"')
 
 		src_path = self.src.path
 		if os.path.isdir(src_path):
@@ -61,6 +61,7 @@ class Copy:
 		self.execute(options)
 
 	def execute(self, rsync_command):
+		print "RUNNING: " + " ".join(rsync_command)
 		cleanProcess = subprocess.Popen(rsync_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		output = cleanProcess.communicate()[0].split("\n")
 

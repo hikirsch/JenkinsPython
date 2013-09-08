@@ -119,11 +119,14 @@ class Jenkins:
 
 	def caseInsensativeFolder(self, path, when):
 		files = os.listdir(path)
-		while len(files) > 0:
+
+		while files:
 			nextFile = files.pop()
 
 			if nextFile.lower() == when.lower():
 				return path + os.path.sep + nextFile
+
+		return None
 
 
 if __name__ == "__main__":
