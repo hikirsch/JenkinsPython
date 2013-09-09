@@ -1,0 +1,3 @@
+php/web-root/assetes/css/img/js/all.js
++php/web-root/assetes/css/img/js/jquery-2.0.3.min.js
+php/web-root/assetes/css/img/js/bootstrap-tab.js
