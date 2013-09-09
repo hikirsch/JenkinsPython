@@ -138,7 +138,7 @@ class Jenkins:
 			path = self.caseInsensativeFolder(when, env)
 
 			if os.path.exists(path):
-				if 
+				if
 				Merge(path, Settings.TARGET_PATH)
 			else:
 				raise Exception("Path '%s' was not found!" % path)
