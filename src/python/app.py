@@ -23,7 +23,6 @@ class Jenkins:
 
 	argHelper = None
 
-
 	def __init__(self):
 		self.argHelper = ArgumentsHelper(argv)
 
@@ -114,8 +113,12 @@ class Jenkins:
 			else:
 				raise Exception("Path '%s' was not found!" % path)
 
-	def compile(self):
-		print "TEST"
+	def closure(self):
+		from compilers.Closure import ClosureCompiler
+
+		ClosureCompiler()
+
+		pass
 
 	def caseInsensativeFolder(self, path, when):
 		files = os.listdir(path)
