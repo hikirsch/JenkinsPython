@@ -3,7 +3,7 @@ from app import Settings
 from model.Path import Path
 
 
-class ClosureCompiler:
+class Closure:
 	JAR_FILE_NAME = "closure-compiler.jar"
 
 	CONFIG_PATH = Path(Settings.BUILD_ASSETS_PATH + os.path.sep + "minify" + os.path.sep + "js.txt")
@@ -20,7 +20,10 @@ class ClosureCompiler:
 			self.run()
 
 	def run(self):
-		open_file = open("sample.txt")
+		open_file = open(self.CONFIG_PATH.path)
+
+		dest_filename = None
+		first = True
 
 		while 1:
 			line = open_file.readline()
@@ -28,12 +31,28 @@ class ClosureCompiler:
 			if not line:
 				break
 
-			firstCharacter = line[:1]
-
-			if firstCharacter == "+":
-				pass # should just append
+			if first:
+				dest_filename = Path(line)
+				print "Destination is %s" % dest_filename.path
+				first = False
 			else:
-				pass # run compiler
+				firstCharacter = line[:1]
+
+				if firstCharacter == "+":
+					path = Path(Settings.SOURCE_PATH + os.path.sep + line[1:])
+					if path.exists():
+						print "should append %s" % path.path
+					else:
+						print "can not append file '%s'" % path.path
+
+				else:
+					path = Path(Settings.SOURCE_PATH + os.path.sep + line)
+
+					if path.exists():
+						print "should run compiler on %s" % path.path
+					else:
+						print "can not run compiler on file '%s'" % path.path
+
 
 
 

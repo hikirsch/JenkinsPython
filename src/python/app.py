@@ -1,18 +1,15 @@
 #!/usr/bin/python
 import os
 import shutil
-from commands.Merge import Merge
 from model.Path import Path
-
-EQUALS_LINE = "==================================================================================================="
-DASH_LINE = "---------------------------------------------------------------------------------------------------"
 
 import traceback
 from sys import argv
 
 from helpers.ArgumentsHelper import ArgumentsHelper
-from commands.Copy import Copy
 
+EQUALS_LINE = "==================================================================================================="
+DASH_LINE = "---------------------------------------------------------------------------------------------------"
 
 class Settings:
 	BUILD_ASSETS_PATH = "build-assets"
@@ -20,44 +17,10 @@ class Settings:
 	SOURCE_PATH = "src"
 
 
-class Compile():
-	def __init(self, arg_helper):
-		self.arg_helper = arg_helper
-
-		command = self.arg_helper.getNextArgument()
-
-		try:
-			methodToCall = getattr(self, command)
-
-			if methodToCall is not None:
-				methodToCall()
-
-		except AttributeError:
-			raise Exception("Command Not Found")
-
-	def fake(self):
-		projectType = self.argHelper.getNextArgument()
-		src = Settings.SOURCE_PATH + os.path.sep + projectType
-
-		if os.path.exists(src):
-			Copy(src, Settings.TARGET_PATH)
-		else:
-			raise Exception("source path '%s' does not exist" % src)
-
-	def closure(self):
-		from compilers.Closure import ClosureCompiler
-
-		ClosureCompiler()
-
-		pass
-
-
 class Jenkins:
 	version = "0.0.1"
 
 	arg_helper = None
-
-	compile = Compile()
 
 	def __init__(self):
 		self.arg_helper = ArgumentsHelper(argv)
@@ -72,13 +35,15 @@ class Jenkins:
 
 			print "Command Detected: ", command
 
+			methodToCall = None
+
 			try:
 				methodToCall = getattr(self, command)
-
-				if methodToCall is not None:
-					methodToCall()
 			except AttributeError:
 				raise Exception("Command Not Found")
+
+			if methodToCall is not None:
+				methodToCall()
 
 			print "DONE"
 
@@ -105,27 +70,37 @@ class Jenkins:
 			print "Nothing to clean"
 
 	def compile(self):
+		from commands.Compile import Compile
+
 		Compile(self.arg_helper)
 
 	def copy(self):
+		from commands.Copy import Copy
+
 		src = self.arg_helper.getNextArgument()
 		dest = self.arg_helper.getNextArgument()
 
 		Copy(src, dest)
 
 	def merge(self):
+		from commands.Merge import Merge
+
 		src = self.arg_helper.getNextArgument()
 		dest = self.arg_helper.getNextArgument()
 
 		Merge(src, dest)
 
 	def deploy(self):
+		from commands.Copy import Copy
+
 		dest = self.arg_helper.getNextArgument()
 
 		Copy(Settings.TARGET_PATH, dest)
 
 	def buildAssets(self):
-		when = self.arg_helper.getNextArgument() + "-build"
+		from commands.Merge import Merge
+
+		when = self.arg_helper.getNextArgument()
 		env = self.arg_helper.getNextArgument()
 
 		if env is None and "ENV" in os.environ:
@@ -134,12 +109,14 @@ class Jenkins:
 		if env is None:
 			raise Exception("No environment found")
 		else:
-			when = self.caseInsensativeFolder(Settings.BUILD_ASSETS_PATH, when)
-			path = self.caseInsensativeFolder(when, env)
+			when_path = self.caseInsensativeFolder(Settings.BUILD_ASSETS_PATH, when + "-build")
+			path = self.caseInsensativeFolder(when_path, env)
 
 			if os.path.exists(path):
-				if
-				Merge(path, Settings.TARGET_PATH)
+				if when == "pre":
+					Merge(path, Settings.SOURCE_PATH)
+				else:
+					Merge(path, Settings.TARGET_PATH)
 			else:
 				raise Exception("Path '%s' was not found!" % path)
 
