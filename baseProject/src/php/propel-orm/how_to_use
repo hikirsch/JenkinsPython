@@ -1,0 +1,43 @@
+- To use propel
+
+1 Time Setup -
+- edit runtime-conf.xml and build.properties with the correct database string
+- add "source path/to/project/.project-profile" to your .profile or .bash_profile
+
+Using Propel -
+- edit schema.xml
+	- reference - http://propelorm.org/reference/schema.html
+
+- edit sample data (data.xml)
+	- reference - http://propelorm.org/cookbook/working-with-existing-databases.html#dumping_data_to_xml
+
+- enter the propel-orm folder in terminal and issue the following commands
+
+	- propel-gen convert-conf
+		- converts the configuration from the xml and build.properties
+
+	- propel-gen om
+		- updates the PHP object model classes
+
+	- propel-gen sql
+		- generates create table sql scripts
+
+	- propel-gen migrate-sql
+		- generates a diff sql script to update the database from schema.xml
+
+	- propel-gen sql-diff
+		- diff the current state of schema.xml with the database, generates a sql diff
+
+	- propel-gen migrate
+		- executes the migration script generated via diff
+
+	- propel-gen datasql
+		- generates data for sql
+
+	- propel-gen datadumb
+		- generates a data.xml from the database
+
+	- propel-gen insert-sql
+		- inserts the last generated sql command that ran (sql, migrate-sql, data-sql, etc.)
+
+	- propel-gen sql-diff

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seo>
+	<page url="/home" title="Welcome to Sample Site's Homepage!">
+		<meta
+			description="This is the meta description for the homepage of the example site."
+			keywords="sample site, bare php, sample data"
+		/>
+
+		<og
+			title="Sample Open"
+			description="This is the sample baseProject homepage."
+			image="/assets/img/share-logo.gif"
+		/>
+	</page>
+
+	<page url="/dynamic/*" title="Dynamic at Sample Site!">
+		<meta
+			description="This dynamic page was rendered by &quot;%x%&quot;."
+			keywords="sample site, bare php, sample data"
+		/>
+
+		<og
+			title="Sample Open Graph Title for Dynamic"
+			description="This is an example of what the open graph description can be. Even with the parameter &quot;%x%&quot;"
+			image="/assets/img/share-logo.gif"
+		/>
+	</page>
+
+	<page url="*" title="Welcome to Sample Site!">
+		<meta
+			description="Welcome to the Sample Site!"
+			keywords="sample site, bare php, sample data"
+		/>
+
+		<og
+			title="Sample Open Graph Title"
+			description="This is an example of what the open graph description can be."
+			image="/assets/img/share-logo.gif"
+		/>
+	</page>
+</seo>

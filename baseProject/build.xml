@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project default="plovr-and-sass">
+	<property name="project.srcPath" value="${basedir}/src/php" />
+
+	<property name="project.phpdocs" value="${basedir}/docs/phpdocs" />
+
+	<property name="project.classesPath" value="${basedir}/src/php/classes" />
+
+	<property name="plovr.rootPath" value="${basedir}/build-assets/tools/plovr" />
+	<property name="plovr.configPath" value="${plovr.rootPath}/plovr-config.json" />
+	<property name="plovr.jarPath" value="${plovr.rootPath}/plovr-eba786b34df9.jar" />
+
+	<property name="sass.executable" value="compass" />
+	<property name="sass.root" value="." />
+	<property name="sass.destPath" value="${project.srcPath}/web-root/assets/css" />
+
+	<!-- run plovr and sass -->
+	<target name="plovr-and-sass">
+		<parallel>
+			<java jar="${plovr.jarPath}" fork="true">
+				<arg value="serve" />
+				<arg value="${plovr.configPath}" />
+			</java>
+
+			<exec executable="${sass.executable}">
+				<arg value="watch" />
+				<arg value="--debug-info" />
+				<arg value="${sass.root}"/>
+			</exec>
+		</parallel>
+	</target>
+
+
+	<target name="clean" depends="clean-sass" />
+	<target name="compile" depends="compile-sass" />
+
+	<target name="clean-all" depends="clean-sass, clean-phpdoc" />
+	<target name="compile-all" depends="compile-sass,compile-phpdoc" />
+
+	<!-- sass -->
+	<target name="compile-sass" depends="clean-sass">
+		<exec executable="${sass.executable}">
+			<arg value="compile" />
+			<arg value="-s" />
+			<arg value="compressed" />
+		</exec>
+	</target>
+
+	<target name="clean-sass">
+		<exec executable="${sass.executable}">
+			<arg value="clean" />
+		</exec>
+	</target>
+
+	<!-- phpdoc -->
+	<target name="compile-phpdoc" depends="clean-phpdoc">
+		<exec executable="phpdoc">
+			<arg value="-d" />
+			<arg value="${project.classesPath}" />
+
+			<arg value="-t" />
+			<arg value="${project.phpdocs}" />
+		</exec>
+	</target>
+
+	<target name="clean-phpdoc">
+		<exec executable="rm">
+			<arg value="-rf" />
+			<arg value="${project.phpdocs}" />
+		</exec>
+	</target>
+</project>

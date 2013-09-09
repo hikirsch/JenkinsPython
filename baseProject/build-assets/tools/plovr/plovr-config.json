@@ -1,0 +1,25 @@
+{
+	"id": "main",
+
+	"paths": [
+		"../../../src/js"
+	],
+
+	"inputs": "../../../src/js/app-main.js",
+
+	"mode": "raw",
+
+	"output-wrapper": "(function(){%output%})();",
+
+	"checks": {
+		"checkRegExp": "ERROR",
+		"checkTypes": "WARNING",
+		"checkVars": "WARNING",
+		"deprecated": "WARNING",
+		"fileoverviewTags": "ERROR",
+		"invalidCasts": "ERROR",
+		"missingProperties": "WARNING",
+		"nonStandardJsDocs": "WARNING",
+		"undefinedVars": "ERROR"
+	}
+}

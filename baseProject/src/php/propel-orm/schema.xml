@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="database_name" namespace="sampleProject\Model" defaultIdMethod="native" xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<!-- this is a sample table with a primary key -->
+	<table name="users">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+	</table>
+</database>

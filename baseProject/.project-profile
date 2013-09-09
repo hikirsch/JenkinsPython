@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export PROPEL_PATH=../../db/propel-generator-1.6.8/bin
+export PHING_PATH=../../db/phing-2.4.13/bin
+
+export PATH=$PROPEL_PATH:$PHING_PATH:$PATH
