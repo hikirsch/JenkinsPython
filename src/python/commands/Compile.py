@@ -39,3 +39,8 @@ class Compile():
 		from compilers.Compass import Compass
 
 		Compass()
+
+	def plovr(self):
+		from compilers.Plovr import Plovr
+
+		Plovr()

@@ -15,6 +15,7 @@ class Settings:
 	BUILD_ASSETS_PATH = "build-assets"
 	TARGET_PATH = "target"
 	SOURCE_PATH = "src"
+	MINIFY_PATH = "minify"
 
 
 class Jenkins:

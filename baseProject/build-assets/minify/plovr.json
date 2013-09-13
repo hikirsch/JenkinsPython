@@ -2,12 +2,15 @@
 	"id": "main",
 
 	"paths": [
-		"../../../src/js"
+		"../../src/js"
 	],
 
-	"inputs": "../../../src/js/app-main.js",
+	"inputs": "../../src/js/app-main.js",
 
-	"mode": "raw",
+	"output-file": "../../src/js/app-compiled.js",
+
+	"mode": "ADVANCED",
+	"level": "VERBOSE",
 
 	"output-wrapper": "(function(){%output%})();",
 

@@ -7,7 +7,7 @@
 	<property name="project.classesPath" value="${basedir}/src/php/classes" />
 
 	<property name="plovr.rootPath" value="${basedir}/build-assets/tools/plovr" />
-	<property name="plovr.configPath" value="${plovr.rootPath}/plovr-config.json" />
+	<property name="plovr.configPath" value="${basedir}/build-assets/minify/plovr.json" />
 	<property name="plovr.jarPath" value="${plovr.rootPath}/plovr-eba786b34df9.jar" />
 
 	<property name="sass.executable" value="compass" />
