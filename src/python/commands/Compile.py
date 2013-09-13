@@ -2,7 +2,6 @@ import os
 from app import Settings
 from commands.Copy import Copy
 
-
 class Compile():
 	def __init__(self, arg_helper):
 		self.arg_helper = arg_helper
@@ -32,5 +31,10 @@ class Compile():
 		from compilers.Closure import Closure
 
 		Closure()
+
+	def yui(self):
+		from compilers.YUI import YUI
+
+		YUI()
 
 		pass

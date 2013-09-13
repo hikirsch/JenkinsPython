@@ -5,6 +5,8 @@ import subprocess
 class Execute:
 	def get_output(self, command):
 		output_contents = []
+
+		print "Running %s" % " ".join(command)
 		cleanProcess = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		output = cleanProcess.communicate()[0].split("\n")
 
