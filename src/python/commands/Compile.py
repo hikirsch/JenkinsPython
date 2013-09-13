@@ -8,8 +8,6 @@ class Compile():
 
 		command = self.arg_helper.getNextArgument()
 
-		methodToCall = None
-
 		try:
 			methodToCall = getattr(self, command)
 		except AttributeError:
@@ -37,4 +35,7 @@ class Compile():
 
 		YUI()
 
-		pass
+	def compass(self):
+		from compilers.Compass import Compass
+
+		Compass()

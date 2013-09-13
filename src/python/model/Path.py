@@ -80,4 +80,7 @@ class Path:
 
 		return path
 
+	def dirname(self):
+		return os.path.dirname(self.path)
+
 

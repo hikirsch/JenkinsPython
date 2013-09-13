@@ -23,6 +23,8 @@ class Closure:
 
 		if self.CONFIG_PATH.exists():
 			self.run()
+		else:
+			print "js.txt config file not found."
 
 	def run(self):
 		config_file = self.read_file(self.CONFIG_PATH.path)
