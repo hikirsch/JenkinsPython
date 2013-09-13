@@ -1,5 +1,6 @@
 import os
 from app import Settings
+from helpers.Execute import Execute
 from model.Path import Path
 
 
@@ -8,10 +9,14 @@ class Closure:
 
 	CONFIG_PATH = Path(Settings.BUILD_ASSETS_PATH + os.path.sep + "minify" + os.path.sep + "js.txt")
 
+	CLOSURE_EXECUTE_PARAMS = "--warning_level=QUIET --compilation_level=SIMPLE_OPTIMIZATIONS".split(" ")
+
 	compiler_path = None
 
 	def __init__(self):
 		self.compiler_path = Path(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + self.JAR_FILE_NAME)
+
+		self.CLOSURE_EXECUTE_PARAMS = ["java", "-jar", self.compiler_path.path] + self.CLOSURE_EXECUTE_PARAMS
 
 		print "Compiler Path: %s" % self.compiler_path.path
 		print "Config Path: %s" % self.CONFIG_PATH.path
@@ -20,39 +25,63 @@ class Closure:
 			self.run()
 
 	def run(self):
-		open_file = open(self.CONFIG_PATH.path)
+		config_file = self.read_file(self.CONFIG_PATH.path)
 
-		dest_filename = None
-		first = True
+		dest_filename = Path(Settings.SOURCE_PATH + os.path.sep + config_file[0])
+		print "Destination is %s" % dest_filename.path
+
+		other_files = config_file[1:]
+
+		dest_file_contents = []
+
+		for line in other_files:
+			firstCharacter = line[:1]
+
+			if firstCharacter == "+":
+				path = Path(Settings.SOURCE_PATH + os.path.sep + line[1:])
+
+				if path.exists():
+					print "Adding '%s'" % path.path
+					dest_file_contents += self.read_file(path.path) + ["\n"]
+				else:
+					print "can not append file '%s'" % path.path
+
+			else:
+				path = Path(Settings.SOURCE_PATH + os.path.sep + line)
+
+				if path.exists():
+					print "Minifying '%s'" % path.path
+					dest_file_contents += self.run_compiler(path)
+
+				else:
+					print "File '%s' does not exist!" % path.path
+
+		self.save_file(dest_filename, "".join(dest_file_contents))
+
+	def run_compiler(self, path):
+		command = self.CLOSURE_EXECUTE_PARAMS + ["--js", path.path]
+		return Execute().get_output(command)
+
+	def read_file(self, file_path):
+		contents = []
+
+		open_file = open(file_path)
 
 		while 1:
+
 			line = open_file.readline()
 
 			if not line:
 				break
 
-			if first:
-				dest_filename = Path(line)
-				print "Destination is %s" % dest_filename.path
-				first = False
-			else:
-				firstCharacter = line[:1]
+			contents.append(line)
 
-				if firstCharacter == "+":
-					path = Path(Settings.SOURCE_PATH + os.path.sep + line[1:])
-					if path.exists():
-						print "should append %s" % path.path
-					else:
-						print "can not append file '%s'" % path.path
+		return contents
 
-				else:
-					path = Path(Settings.SOURCE_PATH + os.path.sep + line)
+	def save_file(self, file_path, contents):
+		f = open(file_path.path, "w")
+		f.write(contents)
+		f.close()
 
-					if path.exists():
-						print "should run compiler on %s" % path.path
-					else:
-						print "can not run compiler on file '%s'" % path.path
-
-
-
+		print "File '%s' has been saved successfully." % file_path.path
 

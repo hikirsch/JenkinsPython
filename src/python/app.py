@@ -45,8 +45,6 @@ class Jenkins:
 			if methodToCall is not None:
 				methodToCall()
 
-			print "DONE"
-
 		except Exception as e:
 			print ""
 			print EQUALS_LINE
@@ -108,6 +106,7 @@ class Jenkins:
 
 		if env is None:
 			raise Exception("No environment found")
+
 		else:
 			when_path = self.caseInsensativeFolder(Settings.BUILD_ASSETS_PATH, when + "-build")
 			path = self.caseInsensativeFolder(when_path, env)

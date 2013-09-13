@@ -1,5 +1,6 @@
 import os
 from commands.Merge import Merge
+from helpers.Execute import Execute
 from model.Path import Path
 
 
@@ -57,19 +58,7 @@ class Copy:
 		options += [src_path, self.dest.getSyncPath()]
 
 		# print options
-		self.execute(options)
-
-	def execute(self, rsync_command):
-		print "RUNNING: " + " ".join(rsync_command)
-		# cleanProcess = subprocess.Popen(rsync_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		# output = cleanProcess.communicate()[0].split("\n")
-		#
-		# for line in output:
-		# 	print line
-
-		os.system(" ".join(rsync_command))
-
-		print "DONE RUNNING"
+		Execute().run(options)
 
 
 
