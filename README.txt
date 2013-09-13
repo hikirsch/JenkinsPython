@@ -1,70 +1,67 @@
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
  - TODO -
---------------------------------------------------
+----------------------------------------------
 	ArgumentsHelper.py
 		- parse all options, return single object
 			- option is --style(=value)
 		- nextArg should iterate only though options, remove argv iterate
 
-	Path.py
-		- support username/password in path object
-		- eval path and ensure still in workspace
-
 	- where should i store username and passwords?
-	- where does minification config requirements come from?
-	- compass requires to be ran in root of project, path to config.rb
 
 	- hot features
 		- plugins page
 			- Global options for source and compiled folder "names"
 			- ability to create a new step using dropdowns and textboxes as options
 		- sync core needed to support various host to destination uri schemes
-			- add rsync + ssh + ftp - support ftp and sftp
-			- add beyond compare, add everything
-			- components add support for URI schemes, are tied to executables, whether via path or whatever
-				- enable or disable itself if found
-				- plugin page can show all supported methods available
 	-  run remote command
-		- run a script from jenkins on a server, source for script exists on jenkins not host
+		- run a script from jenkins on a server, source for script exists on either
+			jenkins or the host
 		- support same URI scheme
 			- ssh://user@myhost.com/home/user/myScript.sh
 			- telnet://user@myhost.com/C/Users/user/myScript.cmd
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 - Typical Job -
---------------------------------------------------
+----------------------------------------------
 
-$ jenkins build-assets pre-build
-$ jenkins fake-compile
-$ jenkins minify sass
-$ jenkins minify closure
-$ jenkins build-assets post-build
+$ jenkins build-assets pre
+$ jenkins compile compass
+$ jenkins compile yui
+$ jenkins compile plovr
+$ jenkins compile fake php
+$ jenkins build-assets post
 $ jenkins archive
 $ jenkins deploy sftp://mydomain.com/home/www/ht_docs
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 - Workspace -
---------------------------------------------------
+----------------------------------------------
+/ <-- VCS root here
+/config.rb (for compass)
 	/build-assets
-		/post (case insensitive, merges into source)
+		/minify
+			/plovr.json (for plovr)
+			/js.txt (for closure)
+			/css.txt (for yui)
+		/post (case insensitive, merges into source on build-assets command)
 			/dev
 			/prd
 		/pre
 			/dev
 			/prd
-	/source
-		/project <-- VCS root here
-	/compiled
+	/src
+		/php (fake compile could copy this as /target)
+	/target <-- IGNORED, created when compiling an app
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 - Job Config Vars -
---------------------------------------------------
+----------------------------------------------
 $job.env = dev/prd/qa
 $job.name = myProject
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 - Command Line Interface -
---------------------------------------------------
+----------------------------------------------
 run like "jenkins" on the command line (name TBD)
 $ alias jenkins="python ~/Development/BuildScripts/Jenkins/app.py"
 
