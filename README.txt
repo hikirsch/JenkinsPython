@@ -11,11 +11,11 @@
 	- hot features
 		- plugins page
 			- Global options for source and compiled folder "names"
-			- ability to create a new step using dropdowns and textboxes as options
+			- ability to create a new step using dropdowns and textboxes
 		- sync core needed to support various host to destination uri schemes
 	-  run remote command
-		- run a script from jenkins on a server, source for script exists on either
-			jenkins or the host
+		- run a script from jenkins on a server, source for script exists on
+			either jenkins or the host
 		- support same URI scheme
 			- ssh://user@myhost.com/home/user/myScript.sh
 			- telnet://user@myhost.com/C/Users/user/myScript.cmd
