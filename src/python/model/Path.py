@@ -73,7 +73,7 @@ class Path:
 
 	def get_sync_path(self):
 		path = self.get_ssh_path()
-		path += "%s/" % self.path
+		path += ":%s/" % self.path
 
 		return path
 
