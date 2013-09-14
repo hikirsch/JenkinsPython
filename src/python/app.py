@@ -1,15 +1,16 @@
 #!/usr/bin/python
 import os
 import shutil
-from model.Path import Path
-
 import traceback
 from sys import argv
 
+from model.Path import Path
 from helpers.ArgumentsHelper import ArgumentsHelper
+
 
 EQUALS_LINE = "==================================================================================================="
 DASH_LINE = "---------------------------------------------------------------------------------------------------"
+
 
 class Settings:
 	BUILD_ASSETS_PATH = "build-assets"
@@ -58,7 +59,6 @@ class Jenkins:
 
 			raise e
 
-
 	def clean(self):
 		path = Path(Settings.TARGET_PATH)
 
@@ -95,6 +95,14 @@ class Jenkins:
 		dest = self.arg_helper.getNextArgument()
 
 		Copy(Settings.TARGET_PATH, dest)
+
+	def shell(self):
+		from commands.Shell import Shell
+
+		path = self.arg_helper.getNextArgument()
+
+		Shell(path)
+
 
 	def buildAssets(self):
 		from commands.Merge import Merge

@@ -6,7 +6,8 @@ from urlparse import urlparse
 class Path:
 	uri = None
 
-	isRemote = False
+	is_remote = False
+	is_absolute = False
 
 	scheme = None
 
@@ -18,7 +19,7 @@ class Path:
 	path = None
 	parsedPath = None
 
-	supportedProtocols = ['', "sftp", "ftp", "cifs"]
+	supportedProtocols = ['', "sftp", "ftp", "cifs", "ssh"]
 
 	def __init__(self, uri):
 		if uri is None:
@@ -40,7 +41,7 @@ class Path:
 		shutil.rmtree(self.path)
 
 	def equals(self, path):
-		if not self.isRemote and not self.path.isRemote:
+		if not self.is_remote and not self.path.isRemote:
 			return os.path.samefile(self.path.path, path.path.path)
 
 		raise Exception("No support for equals on remote server.")
@@ -52,7 +53,7 @@ class Path:
 			raise Exception("Protocol " + parsedResult.scheme + " is not supported")
 
 		if parsedResult.netloc:
-			self.isRemote = True
+			self.is_remote = True
 
 		self.scheme = parsedResult.scheme
 		self.server = parsedResult.hostname
@@ -61,22 +62,28 @@ class Path:
 		self.path = os.path.abspath(parsedResult.path)
 		self.parsedPath = parsedResult.path
 
-		if self.isRemote and self.path[:1] == "/":
+		if self.is_remote and self.path[:1] == "/":
 			self.path = self.path[1:]
 
-	def isDir(self):
+		if self.path[:1] == "/":
+			self.is_absolute = True
+
+	def is_dir(self):
 		return os.path.isdir(self.path)
 
-	def getSyncPath(self):
+	def get_sync_path(self):
+		path = self.get_ssh_path()
+		path += "%s/" % self.path
+
+		return path
+
+	def get_ssh_path(self):
 		path = ""
 
 		if self.userName is not None:
-			if self.password is not None:
-				path += "%s:%s@" % (self.userName, self.password)
-			else:
-				path += "%s@" % self.userName
+			path += "%s@" % self.userName
 
-		path += "%s:%s/" % (self.server, self.path)
+		path += self.server
 
 		return path
 

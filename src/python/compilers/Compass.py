@@ -1,9 +1,9 @@
-import os
+from commands.BaseCommand import BaseCommand
 from helpers.Execute import Execute
 from model.Path import Path
 
 
-class Compass:
+class Compass(BaseCommand):
 	CONFIG_PATH = Path("config.rb")
 
 	def __init__(self):
@@ -17,23 +17,14 @@ class Compass:
 
 
 	def run(self):
-		compass_path = self.which("compass")
+		compass_executable = self.find_executable("compass")
 
-		if len(compass_path) > 0:
+		if compass_executable is not None:
 			print "Running compass clean..."
-			Execute().run([compass_path[0], "clean", self.CONFIG_PATH.dirname()])
+			Execute().run([compass_executable, "clean", self.CONFIG_PATH.dirname()])
 
 			print "Running compass compile..."
-			Execute().run([compass_path[0], "compile", self.CONFIG_PATH.dirname()])
+			Execute().run([compass_executable, "compile", self.CONFIG_PATH.dirname()])
 		else:
 			print "Compass was not found"
 
-	def which(self, filename):
-		locations = os.environ.get("PATH").split(os.pathsep)
-		candidates = []
-		for location in locations:
-			candidate = os.path.join(location, filename)
-			if os.path.isfile(candidate):
-				candidates.append(candidate)
-
-		return candidates

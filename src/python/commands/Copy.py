@@ -20,13 +20,13 @@ class Copy:
 		if self.dest is None:
 			raise Exception("Destination path is empty.")
 
-		if self.dest.isRemote is True and self.src.isRemote is True:
+		if self.dest.is_remote is True and self.src.is_remote is True:
 			raise Exception("Both paths can not be remote paths!")
 
-		if self.src.isRemote is False and self.dest.isRemote is False:
+		if self.src.is_remote is False and self.dest.is_remote is False:
 			self.doCopyLocal()
 
-		if not self.src.isRemote and self.dest.isRemote:
+		if not self.src.is_remote and self.dest.is_remote:
 			self.doCopyRemote()
 
 	def doCopyLocal(self):
@@ -35,7 +35,7 @@ class Copy:
 			print "Removing original folder '" + self.dest.path + "'"
 			self.dest.remove()
 
-		if self.src.isDir():
+		if self.src.is_dir():
 			os.mkdir(self.dest.path)
 
 		print "Copying '" + self.src.path + "' to '" + self.dest.path
@@ -55,7 +55,7 @@ class Copy:
 		if os.path.isdir(src_path):
 			src_path += "/"
 
-		options += [src_path, self.dest.getSyncPath()]
+		options += [src_path, self.dest.get_sync_path()]
 
 		# print options
 		Execute().run(options)
