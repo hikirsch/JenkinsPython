@@ -20,6 +20,13 @@ class Shell(BaseCommand):
 			if not self.path.is_absolute:
 				path = "./" + path
 
-			command = [executable, "-o", "UserKnownHostsFile=/dev/null","-o", "StrictHostKeyChecking=no", self.path.get_ssh_path(), path]
+			command = [executable]
+
+			if self.path.portNumber != 22:
+				command += ["-p", self.path.portNumber]
+
+			command += ["-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no"]
+			
+			command += [self.path.get_ssh_path(), path]
 
 			Execute().run(command)
