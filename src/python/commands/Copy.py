@@ -60,11 +60,7 @@ class Copy:
 
 		options += [src_path, self.dest.get_sync_path()]
 
-		print options
-
-
-		# print options
-		# Execute().run(options)
+		Execute().run(options)
 
 
 
