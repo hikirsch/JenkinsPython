@@ -61,6 +61,7 @@ class Path:
 		self.password = parsedResult.password
 		self.path = os.path.abspath(parsedResult.path)
 		self.parsedPath = parsedResult.path
+		self.portNumber = parsedResult.port
 
 		if self.is_remote and self.path[:1] == "/":
 			self.path = self.path[1:]

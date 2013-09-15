@@ -49,7 +49,10 @@ class Copy:
 		if self.dest.scheme == "ftp":
 			options.append('ftp')
 		else:
-			options.append('"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"')
+			if self.dest.portNumber is not None:
+				options.append('"ssh -P %s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"' % self.dest.portNumber)
+			else:
+				options.append('"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"')
 
 		src_path = self.src.path
 		if os.path.isdir(src_path):
@@ -57,8 +60,11 @@ class Copy:
 
 		options += [src_path, self.dest.get_sync_path()]
 
+		print options
+
+
 		# print options
-		Execute().run(options)
+		# Execute().run(options)
 
 
 

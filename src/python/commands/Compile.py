@@ -18,7 +18,11 @@ class Compile():
 
 	def fake(self):
 		projectType = self.arg_helper.getNextArgument()
-		src = Settings.SOURCE_PATH + os.path.sep + projectType
+
+		src = Settings.SOURCE_PATH
+
+		if projectType is not None:
+			src += os.path.sep + projectType
 
 		if os.path.exists(src):
 			Copy(src, Settings.TARGET_PATH)
