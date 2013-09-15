@@ -50,7 +50,7 @@ class Copy:
 			options.append('ftp')
 		else:
 			if self.dest.portNumber is not None:
-				options.append('"ssh -P %s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"' % self.dest.portNumber)
+				options.append('"ssh -p %s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"' % self.dest.portNumber)
 			else:
 				options.append('"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"')
 
