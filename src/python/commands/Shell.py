@@ -22,7 +22,7 @@ class Shell(BaseCommand):
 
 			command = [executable]
 
-			if self.path.portNumber != 22:
+			if self.path.portNumber is not None and self.path.portNumber != 22:
 				command += ["-p", str(self.path.portNumber)]
 
 			command += ["-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no"]
