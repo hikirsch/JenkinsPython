@@ -24,7 +24,7 @@ class Compass(BaseCommand):
 			Execute().run([compass_executable, "clean", self.CONFIG_PATH.dirname()])
 
 			print "Running compass compile..."
-			Execute().run([compass_executable, "compile", self.CONFIG_PATH.dirname()])
+			Execute().run([compass_executable, "compile", self.CONFIG_PATH.dirname(), "--output-style", "compressed"])
 		else:
 			print "Compass was not found"
 
