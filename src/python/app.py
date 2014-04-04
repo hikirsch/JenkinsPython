@@ -17,10 +17,11 @@ class Settings:
 	TARGET_PATH = "target"
 	SOURCE_PATH = "src"
 	MINIFY_PATH = "minify"
+	PLOVR_PATH = "plovr"
 
 
 class Jenkins:
-	version = "0.0.1"
+	version = "0.0.2"
 
 	arg_helper = None
 
