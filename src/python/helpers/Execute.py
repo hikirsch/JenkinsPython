@@ -3,7 +3,7 @@ import subprocess
 
 
 class Execute:
-	def get_output(self, command):
+	def get_output(self, command, cwd=None):
 		output_contents = []
 
 		print "Running %s" % " ".join(command)
